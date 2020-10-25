@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Dashboard_users from '../views/Dashboard_users.vue'
 import Dashboard from '../views/Dashboard.vue'
 import { auth } from '../firebase/firebase'
 
@@ -8,10 +9,20 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
+    name: 'Dashboard_users',
+    component: Dashboard_users,
+    meta: {
+      requiresAuth: true,
+      admin: false
+    }
+  },
+  {
+    path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      admin: true
     }
   },
   {
@@ -26,7 +37,8 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "settings" */ '../views/Settings.vue'),
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      admin: false
     }
   }
 ]

@@ -33,10 +33,13 @@
             />
           </div>
           <button @click="login()" class="button">Log In</button>
+          <!-- Password reset code -->
           <div class="extras">
-            <a @click="togglePasswordReset()">Forgot Password</a>
-            <a @click="toggleForm()">Create an Account</a>
+            <a @click="togglePasswordReset()"><u>Forgot Password</u></a>
+            <a @click="toggleForm()"><u>Create an Account</u></a>
           </div>
+
+          <!-- SignUp Form code -->
         </form>
         <form v-else @submit.prevent>
           <h1>Get Started</h1>
@@ -45,17 +48,17 @@
             <input
               v-model.trim="signupForm.name"
               type="text"
-              placeholder="Savvy Apps"
+              placeholder="Full Name"
               id="name"
             />
           </div>
           <div>
-            <label for="title">Title</label>
+            <label for="location">Location</label>
             <input
-              v-model.trim="signupForm.title"
+              v-model.trim="signupForm.location"
               type="text"
-              placeholder="Company"
-              id="title"
+              placeholder="Current Location"
+              id="location"
             />
           </div>
           <div>
@@ -78,7 +81,7 @@
           </div>
           <button @click="signup()" class="button">Sign Up</button>
           <div class="extras">
-            <a @click="toggleForm()">Back to Log In</a>
+            <a @click="toggleForm()"><u>Login Instead</u></a>
           </div>
         </form>
       </div>
@@ -101,11 +104,11 @@ export default {
       },
       signupForm: {
         name: '',
-        title: '',
+        location: '',
         email: '',
         password: ''
       },
-      showLoginForm: true,
+      showLoginForm: false,
       showPasswordReset: false
     }
   },
@@ -127,7 +130,7 @@ export default {
         email: this.signupForm.email,
         password: this.signupForm.password,
         name: this.signupForm.name,
-        title: this.signupForm.title
+        location: this.signupForm.location
       })
     }
   }

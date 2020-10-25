@@ -19,6 +19,7 @@ fb.postsCollection.orderBy('createdOn', 'desc').onSnapshot(snapshot => {
 
   store.commit('setPosts', postsArray)
 })
+
 const store = new Vuex.Store({
   state: {
     userProfile: {},
@@ -39,14 +40,29 @@ const store = new Vuex.Store({
         form.email,
         form.password
       )
+      // fetch user profile and set in state
+      dispatch('fetchUserProfile', user)
+    },
+    async signup({ dispatch }, form) {
+      // sign user up
+      const { user } = await fb.auth.createUserWithEmailAndPassword(
+        form.email,
+        form.password
+      )
+      // create user profile object in userCollections in firebase
+      await fb.usersCollection.doc(user.uid).set({
+        name: form.name,
+        location: form.location,
+        role: 'user'
+      })
 
       // fetch user profile and set in state
       dispatch('fetchUserProfile', user)
     },
+
     async fetchUserProfile({ commit }, user) {
       // fetch user profile
       const userProfile = await fb.usersCollection.doc(user.uid).get()
-
       // set user profile in state
       commit('setUserProfile', userProfile.data())
 
@@ -55,22 +71,7 @@ const store = new Vuex.Store({
         router.push('/')
       }
     },
-    async signup({ dispatch }, form) {
-      // sign user up
-      const { user } = await fb.auth.createUserWithEmailAndPassword(
-        form.email,
-        form.password
-      )
 
-      // create user profile object in userCollections
-      await fb.usersCollection.doc(user.uid).set({
-        name: form.name,
-        title: form.title
-      })
-
-      // fetch user profile and set in state
-      dispatch('fetchUserProfile', user)
-    },
     async logout({ commit }) {
       await fb.auth.signOut()
 
@@ -78,6 +79,7 @@ const store = new Vuex.Store({
       commit('setUserProfile', {})
       router.push('/login')
     },
+
     async createPost({ state, commit }, post) {
       await fb.postsCollection.add({
         createdOn: new Date(),
@@ -116,7 +118,7 @@ const store = new Vuex.Store({
       // update user object
       const userRef = await fb.usersCollection.doc(userId).update({
         name: user.name,
-        title: user.title
+        location: user.location
       })
 
       dispatch('fetchUserProfile', { uid: userId })

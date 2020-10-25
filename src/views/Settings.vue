@@ -17,12 +17,12 @@
           id="name"
         />
 
-        <label for="title">Job Title</label>
+        <label for="location">Location</label>
         <input
-          v-model.trim="title"
+          v-model.trim="location"
           type="text"
-          :placeholder="userProfile.title"
-          id="title"
+          :placeholder="userProfile.location"
+          id="location"
         />
 
         <button @click="updateProfile()" class="button">Update Profile</button>
@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       name: '',
-      title: '',
+      location: '',
       showSuccess: false
     }
   },
@@ -49,11 +49,12 @@ export default {
     updateProfile() {
       this.$store.dispatch('updateProfile', {
         name: this.name !== '' ? this.name : this.userProfile.name,
-        title: this.title !== '' ? this.title : this.userProfile.title
+        location:
+          this.location !== '' ? this.location : this.userProfile.location
       })
 
       this.name = ''
-      this.title = ''
+      this.location = ''
 
       this.showSuccess = true
 

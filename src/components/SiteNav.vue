@@ -12,7 +12,10 @@
           <li>
             <router-link to="/settings">Settings</router-link>
           </li>
-          <li><a @click="logout()">logout</a></li>
+          <li>
+            <router-link to="/dashboard">Post</router-link>
+          </li>
+          <li><a @click="logout()">Logout</a></li>
         </ul>
       </div>
     </section>

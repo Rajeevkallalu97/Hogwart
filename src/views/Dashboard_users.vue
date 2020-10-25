@@ -8,25 +8,6 @@
       ></CommentModal>
     </transition>
     <section>
-      <div class="col1">
-        <div class="profile">
-          <h5>{{ userProfile.name }}</h5>
-          <p>{{ userProfile.location }}</p>
-          <div class="create-post">
-            <p>create a post</p>
-            <form @submit.prevent>
-              <textarea v-model.trim="post.content"></textarea>
-              <button
-                @click="createPost()"
-                :disabled="post.content === ''"
-                class="button"
-              >
-                post
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
       <div class="col2">
         <div v-if="posts.length">
           <div v-for="post in posts" :key="post.id" class="post">
@@ -115,10 +96,6 @@ export default {
     ...mapState(['userProfile', 'posts'])
   },
   methods: {
-    createPost() {
-      this.$store.dispatch('createPost', { content: this.post.content })
-      this.post.content = ''
-    },
     toggleCommentModal(post) {
       this.showCommentModal = !this.showCommentModal
 
