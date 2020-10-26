@@ -3,9 +3,10 @@ import VueRouter from 'vue-router'
 import Dashboard_users from '../views/Dashboard_users.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Login from '../views/Login.vue'
-import { auth } from '../firebase/firebase'
-import store from '../store/index'
-import firebase from 'firebase'
+import Chat from '../views/Chat'
+import firebase, { auth } from 'firebase'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 Vue.use(VueRouter)
 
@@ -14,6 +15,16 @@ const routes = [
     path: '/',
     name: 'Dashboard_users',
     component: Dashboard_users,
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: false
+    }
+  },
+
+  {
+    path: '/chat',
+    name: 'Chat',
+    component: Chat,
     meta: {
       requiresAuth: true,
       requiresAdmin: false
@@ -68,9 +79,22 @@ const router = new VueRouter({
 //     next()
 //   }
 // })
+// router.beforeResolve((to, from, next) => {
+//   if (to.name) {
+//     NProgress.start()
+//   }
+//   next()
+// })
+
+router.afterEach((to, from) => {
+  NProgress.done()
+})
 
 //Updated Navigation Guard
 router.beforeEach((to, from, next) => {
+  if (to.name) {
+    NProgress.start()
+  }
   firebase.auth().onAuthStateChanged(userAuth => {
     if (userAuth) {
       firebase
@@ -92,6 +116,8 @@ router.beforeEach((to, from, next) => {
             redirect: to.fullPath
           }
         })
+      } else if (auth.currentUser && to.path == '/login') {
+        next('/')
       } else {
         next()
       }
@@ -99,5 +125,4 @@ router.beforeEach((to, from, next) => {
   })
   next()
 })
-
 export default router

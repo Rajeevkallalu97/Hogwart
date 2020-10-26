@@ -43,7 +43,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['userProfile'])
+    ...mapState(['userProfile', 'isLoading'])
   },
   methods: {
     updateProfile() {

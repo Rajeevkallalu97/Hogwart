@@ -7,6 +7,7 @@
     <section>
       <div class="col1">
         <h1>Hogwarts</h1>
+
         <p>
           Welcome to the Hogwarts
         </p>
@@ -14,6 +15,10 @@
       <div :class="{ 'signup-form': !showLoginForm }" class="col2">
         <form v-if="showLoginForm" @submit.prevent>
           <h1>Welcome Back</h1>
+          <div class="error">
+            <h6 v-if="errorMsg !== ''">{{ errorMsg }}</h6>
+          </div>
+
           <div>
             <label for="email1">Email</label>
             <input
@@ -32,7 +37,10 @@
               id="password1"
             />
           </div>
-          <button @click="login()" class="button">Log In</button>
+
+          <button @click="login()" v-on:keyup.enter="login()" class="button">
+            Log In
+          </button>
           <!-- Password reset code -->
           <div class="extras">
             <a @click="togglePasswordReset()"><u>Forgot Password</u></a>
@@ -43,6 +51,9 @@
         </form>
         <form v-else @submit.prevent>
           <h1>Get Started</h1>
+          <div class="error">
+            <h6 v-if="errorMsg_sign !== ''">{{ errorMsg_sign }}</h6>
+          </div>
           <div>
             <label for="name">Name</label>
             <input
@@ -79,7 +90,9 @@
               id="password2"
             />
           </div>
-          <button @click="signup()" class="button">Sign Up</button>
+          <button @click="signup()" v-on:keyup.enter="signup()" class="button">
+            Sign Up
+          </button>
           <div class="extras">
             <a @click="toggleForm()"><u>Login Instead</u></a>
           </div>
@@ -92,6 +105,9 @@
 <script>
 import PasswordReset from '@/components/PasswordReset'
 import firebase from 'firebase'
+import NProgress from 'nprogress'
+
+import 'nprogress/nprogress.css'
 
 export default {
   components: {
@@ -109,44 +125,66 @@ export default {
         email: '',
         password: ''
       },
+      errorMsg: '',
+      errorMsg_sign: '',
       showLoginForm: false,
       showPasswordReset: false
     }
   },
   computed: {},
-  created() {
-    firebase.auth().onAuthStateChanged(userAuth => {
-      if (userAuth) {
-        firebase
-          .auth()
-          .currentUser.getIdTokenResult()
-          .then(tokenResult => {
-            console.log(tokenResult.claims.admin)
-          })
-      }
-    })
-  },
+
   methods: {
     toggleForm() {
       this.showLoginForm = !this.showLoginForm
+      this.errorMsg = ''
+      this.errorMsg_sign = ''
     },
     togglePasswordReset() {
       this.showPasswordReset = !this.showPasswordReset
+      this.errorMsg = ''
+      this.errorMsg_sign = ''
     },
     login() {
-      this.$store.dispatch('login', {
-        email: this.loginForm.email,
-        password: this.loginForm.password
-      })
+      NProgress.start()
+      this.$store
+        .dispatch('login', {
+          email: this.loginForm.email,
+          password: this.loginForm.password
+        })
+        .then(res => {
+          NProgress.done()
+        })
+        .catch(err => {
+          this.errorMsg = err.message
+          NProgress.done()
+        })
     },
     signup() {
-      this.$store.dispatch('signup', {
-        email: this.signupForm.email,
-        password: this.signupForm.password,
-        name: this.signupForm.name,
-        location: this.signupForm.location
-      })
+      NProgress.start()
+      this.$store
+        .dispatch('signup', {
+          email: this.signupForm.email,
+          password: this.signupForm.password,
+          name: this.signupForm.name,
+          location: this.signupForm.location
+        })
+        .then(res => {
+          NProgress.done()
+        })
+        .catch(err => {
+          NProgress.done()
+          this.errorMsg_sign = err.message
+        })
     }
   }
 }
 </script>
+
+<style scoped>
+.error h6 {
+  margin-top: 1rem;
+  text-align: center;
+  color: #ef5777;
+  margin: 0;
+}
+</style>

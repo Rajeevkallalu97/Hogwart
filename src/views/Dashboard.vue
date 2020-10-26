@@ -94,10 +94,12 @@ import { commentsCollection } from '../firebase/firebase'
 import { mapState } from 'vuex'
 import moment from 'moment'
 import CommentModal from '@/components/CommentModal'
+import Loading from '@/components/Loading'
 
 export default {
   components: {
-    CommentModal
+    CommentModal,
+    Loading
   },
   data() {
     return {

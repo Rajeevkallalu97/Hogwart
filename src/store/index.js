@@ -20,11 +20,26 @@ fb.postsCollection.orderBy('createdOn', 'desc').onSnapshot(snapshot => {
 
   store.commit('setPosts', postsArray)
 })
+// realtime firebase connection
+fb.messageCollection.orderBy('createdOn', 'asc').onSnapshot(snapshot => {
+  // logic goes here
+  let messageArray = []
+
+  snapshot.forEach(doc => {
+    let message = doc.data()
+    message.id = doc.id
+
+    messageArray.push(message)
+  })
+
+  store.commit('setMessage', messageArray)
+})
 
 const store = new Vuex.Store({
   state: {
     userProfile: {},
-    posts: []
+    posts: [],
+    messages: []
   },
   mutations: {
     setUserProfile(state, val) {
@@ -33,6 +48,9 @@ const store = new Vuex.Store({
     setPosts(state, val) {
       state.posts = val
     },
+    setMessage(state, val) {
+      state.messages = val
+    },
     setUser(state, val) {
       state.user = val
     }
@@ -40,7 +58,7 @@ const store = new Vuex.Store({
 
   actions: {
     async login({ dispatch }, form) {
-      // sign user in
+      //sign user in
       const { user } = await fb.auth.signInWithEmailAndPassword(
         form.email,
         form.password
@@ -83,6 +101,15 @@ const store = new Vuex.Store({
       // clear userProfile and redirect to /login
       commit('setUserProfile', {})
       router.push('/login')
+    },
+
+    async createMessage({ state, commit }, message) {
+      await fb.messageCollection.add({
+        createdOn: new Date(),
+        content: message.content,
+        userId: fb.auth.currentUser.uid,
+        userName: state.userProfile.name
+      })
     },
 
     async createPost({ state, commit }, post) {
@@ -134,6 +161,15 @@ const store = new Vuex.Store({
         .get()
       postDocs.forEach(doc => {
         fb.postsCollection.doc(doc.id).update({
+          userName: user.name
+        })
+      })
+      // update all messages by user
+      const messageDocs = await fb.messageCollection
+        .where('userId', '==', userId)
+        .get()
+      messageDocs.forEach(doc => {
+        fb.messageCollection.doc(doc.id).update({
           userName: user.name
         })
       })

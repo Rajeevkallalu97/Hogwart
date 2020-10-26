@@ -13,7 +13,10 @@
             <router-link to="/settings">Settings</router-link>
           </li>
           <li>
-            <router-link to="/dashboard">Post</router-link>
+            <router-link to="/chat">Messaging</router-link>
+          </li>
+          <li>
+            <router-link to="/dashboard">Create Post</router-link>
           </li>
           <li><a @click="logout()">Logout</a></li>
         </ul>
