@@ -1,41 +1,41 @@
 <template>
   <div id="dashboard">
-    <section>
-      <div class="col1">
-        <div class="profile">
-          <h5>{{ userProfile.name }}</h5>
-          <p>{{ userProfile.location }}</p>
-          <div class="create-post">
-            <p>create a message</p>
-            <form @submit.prevent>
-              <textarea
-                v-model.trim="message.content"
-                v-on:keyup.enter="createMessage()"
-              ></textarea>
-              <button
-                @click="createMessage()"
-                :disabled="message.content === ''"
-                class="button"
-              >
-                Send
-              </button>
-            </form>
+    <div class="message-body mt-3">
+      <h3>Chat</h3>
+
+      <div class="card">
+        <div class="card-body">
+          <div v-if="messages.length">
+            <div
+              class="shadow p-4 mb-4 bg-white"
+              v-for="message in messages"
+              :key="message.id"
+            >
+              <h5 class="mg-text">{{ message.userName }}</h5>
+              <span>{{ message.createdOn | formatDate }}</span>
+              <p>{{ message.content }}</p>
+            </div>
+          </div>
+          <div v-else>
+            <p class="no-results">No Messages</p>
           </div>
         </div>
       </div>
-      <div class="col2">
-        <div v-if="messages.length">
-          <div v-for="message in messages" :key="message.id" class="post">
-            <h5>{{ message.userName }}</h5>
-            <span>{{ message.createdOn | formatDate }}</span>
-            <p>{{ message.content }}</p>
-          </div>
-        </div>
-        <div v-else>
-          <p class="no-results">There are currently no posts</p>
-        </div>
+      <div class="centre">
+        <input
+          v-model.trim="message.content"
+          v-on:keyup.enter="createMessage()"
+          class="mt-3 mr-2 pl-2 pr-2"
+        />
+        <button
+          class="btn btn-primary"
+          @click="createMessage()"
+          :disabled="message.content === ''"
+        >
+          Send
+        </button>
       </div>
-    </section>
+    </div>
   </div>
 </template>
 
@@ -91,4 +91,70 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style>
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons');
+#app {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+}
+
+.login {
+  background: #fff;
+  width: 40%;
+  height: 50vh;
+  margin: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+h3 {
+  font-size: 30px;
+  text-align: center;
+}
+input {
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid rgb(156, 156, 156);
+  padding-left: 2px;
+  padding-right: 2px;
+}
+.message-body {
+  width: 40%;
+  height: 80vh;
+  margin: auto;
+}
+.message-text {
+  min-width: 10%;
+  border-radius: 4px;
+}
+.message {
+  font-size: 14px;
+}
+.mg-text {
+  color: rgb(0, 195, 255);
+  font-weight: bolder;
+}
+.message-body input {
+  width: 80%;
+  border-radius: 4px;
+  border: 1px solid rgb(156, 156, 156);
+  height: 6vh;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+.card {
+  width: 100%;
+  height: 75vh;
+  margin: auto;
+}
+.card-body {
+  min-height: 50vh;
+  overflow-x: scroll;
+}
+span {
+  display: block;
+  font-style: italic;
+  font-size: 12px;
+  margin-bottom: 0.5rem;
+  color: darken($light, 25%);
+}
+</style>

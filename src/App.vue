@@ -8,6 +8,7 @@
 <script>
 import { mapState } from 'vuex'
 import SiteNav from '@/components/SiteNav.vue'
+import * as fb from '../src/firebase/firebase'
 
 export default {
   components: {

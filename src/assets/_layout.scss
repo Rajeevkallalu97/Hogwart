@@ -1,7 +1,7 @@
 // navigation
 header {
   position: relative;
-  background: $white;
+  background:#344152 ;
   box-shadow: 0 0 5px 0 rgba($dark, 0.5);
   z-index: 10;
 
@@ -9,17 +9,29 @@ header {
     display: inline-block;
   }
 
+  .button-logout{
+    background: #fff;
+    color: black;
+    box-shadow: 1px 3px #888888;
+    &:hover {
+      background: lighten(rgb(110, 103, 103), 5%);
+    }
+
+  }
   ul {
     float: right;
     text-align: right;
+    
 
     li {
       margin-top: 4px;
       margin-left: 6px;
+      color: white;
 
       a {
         display: block;
-        padding: 5px;
+        padding: 10px;
+        color: white;
       }
     }
   }
@@ -39,8 +51,14 @@ header {
 
 // login
 #login {
-  background: linear-gradient(to right, $primary 0%, $primary 50%, $white 50%, $white 100%);
-
+  // background: linear-gradient(to right, $primary 0%, $primary 50%, $white 50%, $white 100%);
+  
+  background-image: url("login.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  
+ 
   @media screen and (max-width: 742px) {
     height: 100vh;
     background: $white;
@@ -50,9 +68,13 @@ header {
   .col2 {
     height: 100vh;
     padding-top: 30vh;
+    padding-left: 25vh;
+   
+
     @media screen and (max-width: 742px) {
       height: auto;
       padding-top: 20vh;
+    
     }
   }
 
@@ -169,11 +191,30 @@ header {
 // dashboard
 #dashboard {
   section {
-    padding: 2rem 0;
+    padding: 1rem 0;
+    color: rgb(24, 21, 21);
   }
+  .bottom {
+		position: absolute;
+		left: 18.5%;
+		right: 18.5%;
+    height: 60%;
+    bottom: 0;
+    padding-top: 2%;
+   
+   
+   
+	}
+	
+	.top {
+    top: 0;
+    width: 100%;
+	}
+
 
   .col1 {
-    flex: 0 0 30%;
+    flex: 0 0 100%;
+
 
     @media screen and (max-width: 1000px) {
       flex: 0 0 40%;
@@ -181,8 +222,9 @@ header {
   }
 
   .profile {
-    background: $white;
-    padding: 2rem;
+    background: whitesmoke;
+    padding: 1rem;
+    height: 250px;
 
     h5 {}
 
@@ -198,15 +240,15 @@ header {
     }
 
     textarea {
-      height: 200px;
+      height: 100px;
       margin: 0;
     }
 
     .button {
-      margin-top: 1rem;
-      width: 100%;
+      margin-top: 0.5rem;
+      width: 20px;
       z-index: 5;
-      border-radius: 0 0 3px 3px;
+      border-radius: 0 0 2px 2px;
     }
   }
 
@@ -215,15 +257,15 @@ header {
     border: 1px solid #e6ecf0;
     font-size: 14px;
     border-bottom: 0;
-    background: $white;
+    background: rgb(223, 219, 219);
 
     &:hover {
-      background: #f5f8fa;
+      background: #8fa9bb;
       cursor: pointer;
     }
 
     .new-posts {
-      color: $primary;
+      color: black;
     }
 
     p {
@@ -235,13 +277,14 @@ header {
 
   .post {
     border: 1px solid #e6ecf0;
-    border-bottom: 0;
+    border-bottom: 30px;
     font-size: 14px;
-    padding: 1.5rem;
-    background: $white;
+    padding: 1rem;
+    background: #8fa9bb;
+   
 
     &:hover {
-      background: #f5f8fa;
+      background: rgb(223, 219, 219);
     }
 
     &:last-of-type {
@@ -390,7 +433,7 @@ header {
   .col1 {
     max-width: 600px;
     margin: 5vh auto 0;
-    background: $white;
+    background: #8fa9bb;
     padding: 2rem;
   }
 

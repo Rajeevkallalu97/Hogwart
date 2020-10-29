@@ -1,32 +1,36 @@
 <template>
   <section id="settings">
     <div class="col1">
-      <h3>Settings</h3>
-      <p>Update your profile</p>
+      <div class="shadow-lg p-4 mb-4 bg-black ">
+        <h3>Settings</h3>
+        <p>Update your profile</p>
 
-      <transition name="fade">
-        <p v-if="showSuccess" class="success">profile updated</p>
-      </transition>
+        <transition name="fade">
+          <p v-if="showSuccess" class="success">profile updated</p>
+        </transition>
 
-      <form @submit.prevent>
-        <label for="name">Name</label>
-        <input
-          v-model.trim="name"
-          type="text"
-          :placeholder="userProfile.name"
-          id="name"
-        />
+        <form @submit.prevent>
+          <label for="name">Name</label>
+          <input
+            v-model.trim="name"
+            type="text"
+            :placeholder="userProfile.name"
+            id="name"
+          />
 
-        <label for="location">Location</label>
-        <input
-          v-model.trim="location"
-          type="text"
-          :placeholder="userProfile.location"
-          id="location"
-        />
+          <label for="location">Location</label>
+          <input
+            v-model.trim="location"
+            type="text"
+            :placeholder="userProfile.location"
+            id="location"
+          />
 
-        <button @click="updateProfile()" class="button">Update Profile</button>
-      </form>
+          <button @click="updateProfile()" class="button" style="float: right">
+            Update Profile
+          </button>
+        </form>
+      </div>
     </div>
   </section>
 </template>
@@ -43,7 +47,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['userProfile', 'isLoading'])
+    ...mapState(['userProfile'])
   },
   methods: {
     updateProfile() {

@@ -9,28 +9,37 @@
     </transition>
     <section>
       <div class="col2">
-        <div v-if="posts.length">
-          <div v-for="post in posts" :key="post.id" class="post">
-            <h5>{{ post.userName }}</h5>
-            <span>{{ post.createdOn | formatDate }}</span>
-            <p>{{ post.content | trimLength }}</p>
-            <ul>
-              <li>
-                <a @click="toggleCommentModal(post)"
-                  >comments {{ post.comments }}</a
-                >
-              </li>
-              <li>
-                <a @click="likePost(post.id, post.likes)"
-                  >likes {{ post.likes }}</a
-                >
-              </li>
-              <li><a @click="viewPost(post)">view full post</a></li>
-            </ul>
+        <div class="shadow p-4 mb-4 ">
+          <div v-if="posts.length">
+            <div v-for="post in posts" :key="post.id" class="post">
+              <h5>{{ post.userName }}</h5>
+              <span>{{ post.createdOn | formatDate }}</span>
+              <p>{{ post.content | trimLength }}</p>
+
+              <ul>
+                <li>
+                  <a @click="toggleCommentModal(post)"
+                    >comments {{ post.comments }}</a
+                  >
+                </li>
+                <li>
+                  <a @click="likePost(post.id, post.likes)"
+                    >likes {{ post.likes }}</a
+                  >
+                </li>
+                <li
+                  style="float: right"
+                  class="fa fa-eye"
+                  @click="viewPost(post)"
+                ></li>
+                <br />
+              </ul>
+            </div>
           </div>
-        </div>
-        <div v-else>
-          <p class="no-results">There are currently no posts</p>
+
+          <div v-else>
+            <p class="no-results">There are currently no posts</p>
+          </div>
         </div>
       </div>
     </section>
@@ -39,7 +48,11 @@
     <transition name="fade">
       <div v-if="showPostModal" class="p-modal">
         <div class="p-container">
-          <a @click="closePostModal()" class="close">close</a>
+          <a
+            @click="closePostModal()"
+            class="fa fa-close"
+            style="float: right"
+          ></a>
           <div class="post">
             <h5>{{ fullPost.userName }}</h5>
             <span>{{ fullPost.createdOn | formatDate }}</span>

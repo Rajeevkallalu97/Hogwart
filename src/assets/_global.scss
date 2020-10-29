@@ -13,8 +13,9 @@ $white: #fff;
 body {
 	margin: 0;
 	color: $dark;
-	background: #E6ECF0;
+
 }
+
 
 html {
 	line-height: 1.15;
@@ -130,25 +131,25 @@ section {
 }
 
 .button {
-	background: $primary;
+	background: #344152;
 	border: 0;
 	outline: 0;
 	color: $white;
-	padding: 0.8rem 1rem;
+	padding: 0.7rem 1rem;
 	min-width: 150px;
 	font-size: 16px;
 	border-radius: 3px;
 	cursor: pointer;
 
 	&:hover {
-		background: lighten($primary, 5%);
+		background: lighten(#344152, 5%);
 	}
 
 	&:disabled {
 		opacity: 0.5;
 
 		&:hover {
-			background: $primary;
+			background: #344152;
 		}
 	}
 }

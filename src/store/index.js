@@ -75,8 +75,7 @@ const store = new Vuex.Store({
       // create user profile object in userCollections in firebase
       await fb.usersCollection.doc(user.uid).set({
         name: form.name,
-        location: form.location,
-        role: 'user'
+        location: form.location
       })
 
       // fetch user profile and set in state
@@ -87,6 +86,7 @@ const store = new Vuex.Store({
       // fetch user profile
       const userProfile = await fb.usersCollection.doc(user.uid).get()
       // set user profile in state
+
       commit('setUserProfile', userProfile.data())
 
       // change route to dashboard

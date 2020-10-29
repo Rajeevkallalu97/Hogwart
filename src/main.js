@@ -4,10 +4,9 @@ import router from './router'
 import store from './store'
 import { auth } from '../src/firebase/firebase'
 import './assets/app.scss'
-import VueChatScroll from 'vue-chat-scroll'
+import vuescroll from 'vuescroll'
 
-Vue.use(VueChatScroll)
-
+Vue.use(vuescroll)
 Vue.config.productionTip = false
 
 let app
